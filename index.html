@@ -14,6 +14,8 @@
     --cinza-borda:#d7dee4;
     --texto:#233140;
     --amarelo:#ffb703;
+    --vermelho:#b3261e;
+    --vermelho-hover:#8c1c16;
   }
   *{box-sizing:border-box;}
   body{
@@ -259,8 +261,16 @@
     align-items:center;
     gap:10px;
   }
-  #btnEnviar{
+  .botoes-envio{
     width:100%;
+    display:flex;
+    gap:12px;
+  }
+  @media(max-width:560px){
+    .botoes-envio{ flex-direction:column; }
+  }
+  #btnEnviar{
+    flex:1 1 auto;
     padding:16px;
     border:none;
     border-radius:14px;
@@ -274,6 +284,22 @@
   }
   #btnEnviar:hover{ background:#0e2436; }
   #btnEnviar:disabled{ background:#93a3b0; cursor:not-allowed; box-shadow:none; }
+
+  #btnExcluir{
+    flex:0 0 auto;
+    padding:16px 22px;
+    border:2px solid var(--vermelho);
+    border-radius:14px;
+    background:#fff;
+    color:var(--vermelho);
+    font-size:1.02rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, transform .1s ease;
+  }
+  #btnExcluir:hover{ background:var(--vermelho); color:#fff; }
+  #btnExcluir:disabled{ border-color:#c7ccd1; color:#93a3b0; cursor:not-allowed; background:#fff; }
+
   #msgEnvio{
     font-size:.9rem;
     text-align:center;
@@ -281,6 +307,7 @@
   }
   #msgEnvio.erro{ color:#b3261e; font-weight:600; }
   #msgEnvio.sucesso{ color:var(--verde-escuro); font-weight:700; }
+  #msgEnvio.aviso{ color:#8a5a2b; font-weight:600; }
 
   .overlay-sucesso{
     position:fixed; inset:0;
@@ -345,7 +372,10 @@
 <main id="areaQuestoes"></main>
 
 <div class="barra-envio">
-  <button id="btnEnviar" disabled>Enviar Atividade</button>
+  <div class="botoes-envio">
+    <button id="btnEnviar" disabled>Enviar Atividade</button>
+    <button id="btnExcluir" type="button">Excluir Respostas</button>
+  </div>
   <div id="msgEnvio"></div>
 </div>
 
@@ -792,9 +822,10 @@ selNome.addEventListener('change', () => {
 carregarAlunos();
 
 /* =====================================================================
-   VALIDAÇÃO E ENVIO
+   VALIDAÇÃO, ENVIO E EXCLUSÃO DE RESPOSTAS
    ===================================================================== */
 const btnEnviar = document.getElementById('btnEnviar');
+const btnExcluir = document.getElementById('btnExcluir');
 const msgEnvio = document.getElementById('msgEnvio');
 
 function validarFormulario(){
@@ -818,6 +849,7 @@ btnEnviar.addEventListener('click', async () => {
   }
 
   btnEnviar.disabled = true;
+  btnExcluir.disabled = true;
   btnEnviar.textContent = 'Enviando e corrigindo com IA...';
   msgEnvio.className = '';
   msgEnvio.textContent = '';
@@ -855,8 +887,42 @@ btnEnviar.addEventListener('click', async () => {
     msgEnvio.className = 'erro';
     msgEnvio.textContent = 'Erro ao enviar: ' + err.message + '. Tente novamente.';
     btnEnviar.disabled = false;
+    btnExcluir.disabled = false;
     btnEnviar.textContent = 'Enviar Atividade';
   }
+});
+
+// Botão "Excluir Respostas": limpa todas as alternativas marcadas e os
+// campos dissertativos, sem alterar a identificação do aluno já carregada.
+btnExcluir.addEventListener('click', () => {
+  const temRespostas = Object.keys(respostas).some(k => (respostas[k] || '').toString().trim() !== '');
+  if(!temRespostas){
+    msgEnvio.className = 'aviso';
+    msgEnvio.textContent = 'Não há respostas preenchidas para excluir.';
+    return;
+  }
+
+  const confirmar = window.confirm('Tem certeza que deseja excluir todas as respostas já preenchidas? Esta ação não pode ser desfeita.');
+  if(!confirmar) return;
+
+  // Limpa alternativas selecionadas
+  document.querySelectorAll('.alt.selecionada').forEach(a => a.classList.remove('selecionada'));
+
+  // Limpa campos dissertativos e contadores
+  QUESTOES.filter(q => q.tipo === 'dissertativa').forEach(q => {
+    const ta = document.getElementById(q.id);
+    const cont = document.getElementById('cont-' + q.id);
+    if(ta) ta.value = '';
+    if(cont) cont.textContent = '0';
+  });
+
+  // Limpa o objeto de respostas
+  Object.keys(respostas).forEach(k => delete respostas[k]);
+
+  msgEnvio.className = 'aviso';
+  msgEnvio.textContent = 'Todas as respostas foram excluídas. Você pode preencher a atividade novamente.';
+
+  validarFormulario();
 });
 </script>
 </body>
