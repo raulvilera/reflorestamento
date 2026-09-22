@@ -142,13 +142,34 @@
     justify-content:center;
     margin:12px 0 16px;
   }
-  .imagem-questao svg{
+  .imagem-questao svg,
+  .imagem-questao img{
     width:100%;
     max-width:340px;
     height:auto;
     border-radius:12px;
     background:#eaf4fb;
     padding:10px;
+    object-fit:contain;
+    display:block;
+  }
+  .imagem-questao img{
+    padding:0;
+    background:#eaf4fb;
+  }
+  .imagem-questao .imagem-erro{
+    width:100%;
+    max-width:340px;
+    min-height:120px;
+    border-radius:12px;
+    background:#eaf4fb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#54606c;
+    font-size:.82rem;
+    text-align:center;
+    padding:14px;
   }
 
   .pergunta{
@@ -494,7 +515,7 @@ const SVG = {
 const QUESTOES = [
   {
     id:'q1', tipo:'objetiva', aula:'Aula 1 · Ecossistemas aquáticos',
-    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5Qu55i18lHw_hCeC34h3HpMIUTaQmqOvcFcREcTC8Pl3uTbswGszn6IHzkjkAUQp-VlgJzmWSqKy0F4DQed0fK65eUwLiqduEeYaf1MakybvpT1SOct-XqGOs8kMMcbaosyAGO2E3eoPtTH4U9-rG3y0n59QjEvRIRVMKhPv0eYTEx-eFB3GGqBUZzq_0/s1312/ChatGPT%20Image%2018%20de%20set.%20de%202026,%2019_42_40.png",
+    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5Qu55i18lHw_hCeC34h3HpMIUTaQmqOvcFcREcTC8Pl3uTbswGszn6IHzkjkAUQp-VlgJzmWSqKy0F4DQed0fK65eUwLiqduEeYaf1MakybvpT1SOct-XqGOs8kMMcbaosyAGO2E3eoPtTH4U9-rG3y0n59QjEvRIRVMKhPv0eYTEx-eFB3GGqBUZzq_0/s1312/ChatGPT%20Image%2018%20de%20set.%20de%202026,%2019_42_40.png',
     enunciado:'Os ecossistemas aquáticos brasileiros — rios, lagos, mares e manguezais — apresentam características físicas e biológicas próprias que sustentam grande biodiversidade e prestam serviços ecossistêmicos essenciais.',
     pergunta:'Qual alternativa apresenta corretamente um serviço ecossistêmico prestado pelos ambientes aquáticos?',
     alternativas:[
@@ -612,6 +633,22 @@ const QUESTOES = [
 const areaQuestoes = document.getElementById('areaQuestoes');
 const respostas = {};
 
+// Monta o HTML correto da ilustração da questão, aceitando dois formatos
+// em q.imagem: (1) uma string de SVG inline (começa com "<svg") ou
+// (2) uma URL de imagem (foto/PNG/JPG gerada, link do Blogger/Drive/etc).
+function renderImagemQuestao(imagem, textoAlternativo){
+  if(!imagem) return '';
+
+  const ehSvgInline = /^\s*<svg[\s>]/i.test(imagem);
+  if(ehSvgInline){
+    return imagem;
+  }
+
+  const alt = (textoAlternativo || 'Ilustração da questão').replace(/"/g, '&quot;');
+  return `<img src="${imagem}" alt="${alt}" loading="lazy"
+            onerror="this.outerHTML='<div class=\\'imagem-erro\\'>Não foi possível carregar a imagem desta questão.</div>'">`;
+}
+
 QUESTOES.forEach((q, idx) => {
   const card = document.createElement('div');
   card.className = 'questao';
@@ -623,7 +660,7 @@ QUESTOES.forEach((q, idx) => {
     <span class="${tagClasse}">${tagTexto} · Questão ${idx+1}</span>
     <h4>${q.aula}</h4>
     <p class="enunciado">${q.enunciado}</p>
-    <div class="imagem-questao">${q.imagem}</div>
+    <div class="imagem-questao">${renderImagemQuestao(q.imagem, q.aula)}</div>
     <p class="pergunta">${q.pergunta}</p>
   `;
 
