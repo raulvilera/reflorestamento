@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atividade de Ciências – 7º Ano – 3º Bimestre</title>
+<style>
+  :root{
+    --azul-escuro:#14324a;
+    --azul-medio:#1c5c86;
+    --verde-escuro:#1b5e20;
+    --verde-escuro-hover:#164a19;
+    --cinza-claro:#f4f6f8;
+    --cinza-borda:#d7dee4;
+    --texto:#233140;
+    --amarelo:#ffb703;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:linear-gradient(180deg,#eaf2f8 0%,#f7fbfd 220px, #f7fbfd 100%);
+    color:var(--texto);
+    padding-bottom:60px;
+  }
+
+  /* ===== CABEÇALHO PADRÃO DA ESCOLA ===== */
+  header.escola{
+    background:var(--azul-escuro);
+    color:#fff;
+    padding:22px 18px 26px;
+    text-align:center;
+    box-shadow:0 4px 14px rgba(0,0,0,.18);
+  }
+  header.escola h1{
+    margin:0 0 4px;
+    font-size:1.35rem;
+    letter-spacing:.5px;
+  }
+  header.escola h2{
+    margin:0;
+    font-weight:400;
+    font-size:1rem;
+    opacity:.9;
+  }
+
+  .identificacao{
+    max-width:760px;
+    margin:-28px auto 0;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 8px 24px rgba(20,50,74,.15);
+    padding:22px 24px;
+    position:relative;
+    z-index:2;
+  }
+  .identificacao h3{
+    margin:0 0 14px;
+    color:var(--azul-escuro);
+    font-size:1.05rem;
+    border-bottom:2px solid var(--cinza-borda);
+    padding-bottom:8px;
+  }
+  .grid-id{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  @media(max-width:560px){ .grid-id{grid-template-columns:1fr;} }
+  .campo{ display:flex; flex-direction:column; gap:6px; }
+  .campo label{ font-size:.82rem; font-weight:600; color:var(--azul-escuro); }
+  .campo select, .campo input{
+    padding:10px 12px;
+    border-radius:9px;
+    border:1px solid var(--cinza-borda);
+    background:var(--cinza-claro);
+    font-size:.95rem;
+    color:var(--texto);
+  }
+  .campo input[readonly]{
+    background:#eef3f7;
+    color:#54606c;
+  }
+  #statusAluno{
+    margin-top:12px;
+    font-size:.85rem;
+    color:#54606c;
+  }
+
+  main{
+    max-width:760px;
+    margin:26px auto;
+    padding:0 16px;
+  }
+
+  .questao{
+    background:#fff;
+    border-radius:14px;
+    padding:20px 20px 24px;
+    margin-bottom:22px;
+    box-shadow:0 4px 16px rgba(20,50,74,.08);
+    border:1px solid #e7edf2;
+  }
+  .questao .tag{
+    display:inline-block;
+    background:var(--azul-medio);
+    color:#fff;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.4px;
+    padding:4px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  .questao .tag.dissertativa{ background:var(--amarelo); color:#4a3300; }
+  .questao h4{
+    margin:0 0 4px;
+    font-size:1rem;
+    color:var(--azul-escuro);
+  }
+  .questao p.enunciado{
+    margin:6px 0 14px;
+    line-height:1.55;
+    font-size:.96rem;
+  }
+
+  .imagem-questao{
+    display:flex;
+    justify-content:center;
+    margin:12px 0 16px;
+  }
+  .imagem-questao svg{
+    width:100%;
+    max-width:340px;
+    height:auto;
+    border-radius:12px;
+    background:#eaf4fb;
+    padding:10px;
+  }
+
+  .pergunta{
+    font-weight:600;
+    margin:10px 0 12px;
+  }
+
+  /* ===== ALTERNATIVAS: alto-relevo ===== */
+  .alternativas{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .alt{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px 16px;
+    border-radius:12px;
+    background:linear-gradient(145deg,#ffffff,#e8edf1);
+    box-shadow:
+      6px 6px 12px rgba(163,177,198,.5),
+      -6px -6px 12px rgba(255,255,255,.85);
+    border:1px solid #eef1f4;
+    cursor:pointer;
+    font-size:.94rem;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
+    user-select:none;
+  }
+  .alt:hover{ transform:translateY(-1px); }
+  .alt .letra{
+    flex:0 0 auto;
+    width:26px; height:26px;
+    border-radius:50%;
+    background:var(--azul-medio);
+    color:#fff;
+    font-weight:700;
+    font-size:.8rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .alt.selecionada{
+    background:var(--verde-escuro);
+    color:#fff;
+    font-weight:700;
+    box-shadow:
+      inset 4px 4px 8px rgba(0,0,0,.35),
+      inset -4px -4px 8px rgba(255,255,255,.06);
+    transform:translateY(1px) scale(.99);
+    border-color:var(--verde-escuro-hover);
+  }
+  .alt.selecionada .letra{
+    background:#fff;
+    color:var(--verde-escuro);
+  }
+
+  textarea.resposta-dissertativa{
+    width:100%;
+    min-height:110px;
+    border-radius:12px;
+    border:1px solid var(--cinza-borda);
+    padding:12px 14px;
+    font-family:inherit;
+    font-size:.94rem;
+    resize:vertical;
+    background:var(--cinza-claro);
+  }
+  .contador{
+    text-align:right;
+    font-size:.75rem;
+    color:#8492a0;
+    margin-top:4px;
+  }
+
+  .barra-envio{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 16px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+  #btnEnviar{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:var(--azul-escuro);
+    color:#fff;
+    font-size:1.02rem;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(20,50,74,.3);
+    transition:background .15s ease, transform .1s ease;
+  }
+  #btnEnviar:hover{ background:#0e2436; }
+  #btnEnviar:disabled{ background:#93a3b0; cursor:not-allowed; box-shadow:none; }
+  #msgEnvio{
+    font-size:.9rem;
+    text-align:center;
+    min-height:20px;
+  }
+  #msgEnvio.erro{ color:#b3261e; font-weight:600; }
+  #msgEnvio.sucesso{ color:var(--verde-escuro); font-weight:700; }
+
+  .overlay-sucesso{
+    position:fixed; inset:0;
+    background:rgba(20,50,74,.92);
+    display:none;
+    align-items:center; justify-content:center;
+    z-index:50; padding:20px;
+  }
+  .overlay-sucesso.ativo{ display:flex; }
+  .caixa-sucesso{
+    background:#fff;
+    border-radius:16px;
+    padding:32px 26px;
+    max-width:420px;
+    text-align:center;
+  }
+  .caixa-sucesso h3{ color:var(--verde-escuro); margin-top:0; }
+  .caixa-sucesso .nota{
+    font-size:2.4rem;
+    font-weight:800;
+    color:var(--azul-escuro);
+    margin:10px 0;
+  }
+</style>
+</head>
+<body>
+
+<header class="escola">
+  <h1>E.E. PROFª WANDA MASCAGNI DE SÁ</h1>
+  <h2>Atividade Avaliativa de Ciências — 7º Ano — 3º Bimestre</h2>
+</header>
+
+<section class="identificacao">
+  <h3>Identificação do Aluno</h3>
+  <div class="grid-id">
+    <div class="campo">
+      <label for="selTurma">Turma</label>
+      <select id="selTurma">
+        <option value="">Selecione a turma...</option>
+        <option value="7º Ano A">7º Ano A</option>
+        <option value="7º Ano B">7º Ano B</option>
+      </select>
+    </div>
+    <div class="campo">
+      <label for="selNome">Nome do Aluno</label>
+      <select id="selNome" disabled>
+        <option value="">Selecione a turma primeiro...</option>
+      </select>
+    </div>
+    <div class="campo">
+      <label for="inRA">RA</label>
+      <input type="text" id="inRA" readonly placeholder="Preenchido automaticamente">
+    </div>
+    <div class="campo">
+      <label for="inChamada">Nº de chamada</label>
+      <input type="text" id="inChamada" readonly placeholder="Preenchido automaticamente">
+    </div>
+  </div>
+  <div id="statusAluno">Selecione a turma e depois o nome para carregar seus dados.</div>
+</section>
+
+<main id="areaQuestoes"></main>
+
+<div class="barra-envio">
+  <button id="btnEnviar" disabled>Enviar Atividade</button>
+  <div id="msgEnvio"></div>
+</div>
+
+<div class="overlay-sucesso" id="overlaySucesso">
+  <div class="caixa-sucesso">
+    <h3>Atividade enviada! ✅</h3>
+    <p id="mensagemFinal">Suas respostas foram registradas com sucesso.</p>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIGURAÇÃO
+   Substitua pela URL da sua implantação do Apps Script (Web App /exec)
+   ===================================================================== */
+const APPS_SCRIPT_URL = "COLE_AQUI_A_URL_DO_SEU_APP_DA_WEB_/exec";
+
+/* =====================================================================
+   ILUSTRAÇÕES (SVG originais, um ícone temático por questão)
+   ===================================================================== */
+const SVG = {
+  aquatico: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#cdebf7"/>
+    <circle cx="250" cy="35" r="20" fill="#ffd166"/>
+    <path d="M0 120 Q30 100 60 120 T120 120 T180 120 T240 120 T300 120 V180 H0 Z" fill="#2a9df4"/>
+    <path d="M0 140 Q30 125 60 140 T120 140 T180 140 T240 140 T300 140 V180 H0 Z" fill="#1c6faa"/>
+    <ellipse cx="90" cy="95" rx="22" ry="10" fill="#f4a340"/>
+    <path d="M112 95 l18 -10 l0 20 Z" fill="#f4a340"/>
+    <circle cx="82" cy="93" r="2.5" fill="#3a2a12"/>
+    <path d="M40 60 q6 -18 14 0" stroke="#2f855a" stroke-width="4" fill="none"/>
+    <path d="M55 65 q6 -20 14 0" stroke="#2f855a" stroke-width="4" fill="none"/>
+    <path d="M25 68 q6 -14 14 0" stroke="#2f855a" stroke-width="4" fill="none"/>
+  </svg>`,
+
+  mataatlantica: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#dff5df"/>
+    <circle cx="250" cy="35" r="18" fill="#ffd166"/>
+    <path d="M50 150 L50 90 M50 90 L20 60 M50 90 L80 60 M50 70 L30 45 M50 70 L70 45" stroke="#5d4426" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="50" cy="55" rx="40" ry="30" fill="#2f9e44"/>
+    <path d="M140 150 L140 80 M140 80 L110 55 M140 80 L170 55" stroke="#5d4426" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <ellipse cx="140" cy="45" rx="50" ry="36" fill="#37b24d"/>
+    <path d="M220 150 L220 95 M220 95 L195 68 M220 95 L245 68" stroke="#5d4426" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="220" cy="60" rx="38" ry="28" fill="#2f9e44"/>
+    <rect x="0" y="150" width="300" height="30" fill="#8a5a2b"/>
+  </svg>`,
+
+  cerrado: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#fdf1d6"/>
+    <circle cx="240" cy="40" r="24" fill="#ff9f1c"/>
+    <rect x="0" y="140" width="300" height="40" fill="#d9a441"/>
+    <path d="M60 140 L55 70 M55 70 L40 55 M55 70 L70 50" stroke="#8a5a2b" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="55" cy="60" rx="24" ry="16" fill="#7cb342"/>
+    <path d="M150 140 L145 60 M145 60 L128 42 M145 60 L162 40" stroke="#8a5a2b" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="145" cy="48" rx="30" ry="18" fill="#8bc34a"/>
+    <path d="M230 140 L225 85 M225 85 L210 70 M225 85 L242 68" stroke="#8a5a2b" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="225" cy="76" rx="22" ry="14" fill="#7cb342"/>
+    <g stroke="#c17817" stroke-width="3">
+      <line x1="90" y1="150" x2="95" y2="120"/>
+      <line x1="190" y1="155" x2="196" y2="130"/>
+    </g>
+  </svg>`,
+
+  amazonia: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#d6f0da"/>
+    <circle cx="255" cy="30" r="16" fill="#ffd166"/>
+    <ellipse cx="60" cy="60" rx="55" ry="38" fill="#1b7a3d"/>
+    <ellipse cx="150" cy="40" rx="65" ry="44" fill="#219150"/>
+    <ellipse cx="245" cy="65" rx="50" ry="34" fill="#1b7a3d"/>
+    <path d="M0 130 Q40 110 80 130 T160 130 T240 130 T300 130 V180 H0 Z" fill="#3a7bd5"/>
+    <path d="M0 150 Q40 135 80 150 T160 150 T240 150 T300 150 V180 H0 Z" fill="#2a5ea8"/>
+    <circle cx="120" cy="145" r="5" fill="#ffd166"/>
+    <path d="M110 145 q10 -6 20 0" stroke="#8a5a2b" stroke-width="2" fill="none"/>
+  </svg>`,
+
+  pantanal: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#e7f3e0"/>
+    <circle cx="245" cy="35" r="18" fill="#ffd166"/>
+    <path d="M0 110 Q30 95 60 110 T120 110 T180 110 T240 110 T300 110 V180 H0 Z" fill="#4fa3d1"/>
+    <ellipse cx="230" cy="95" rx="20" ry="10" fill="#c98a4b"/>
+    <path d="M248 95 l14 -8 l0 16 Z" fill="#c98a4b"/>
+    <circle cx="222" cy="93" r="2" fill="#3a2a12"/>
+    <ellipse cx="90" cy="150" rx="16" ry="9" fill="#e08e45"/>
+    <path d="M74 150 q-16 -4 -18 6" stroke="#e08e45" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="90" cy="140" rx="8" ry="6" fill="#e08e45"/>
+    <path d="M40 70 q6 -20 14 0" stroke="#2f855a" stroke-width="4" fill="none"/>
+    <path d="M55 75 q6 -22 14 0" stroke="#2f855a" stroke-width="4" fill="none"/>
+  </svg>`,
+
+  pampacaatinga: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="150" height="180" fill="#e3f0e0"/>
+    <rect x="150" width="150" height="180" fill="#f6e3c2"/>
+    <circle cx="55" cy="35" r="16" fill="#ffd166"/>
+    <path d="M0 150 Q20 140 40 150 T80 150 T120 150 T150 150 V180 H0 Z" fill="#8bc34a"/>
+    <g stroke="#5a7d2c" stroke-width="3">
+      <line x1="20" y1="150" x2="22" y2="130"/>
+      <line x1="45" y1="150" x2="47" y2="128"/>
+      <line x1="70" y1="150" x2="72" y2="132"/>
+      <line x1="95" y1="150" x2="97" y2="126"/>
+    </g>
+    <circle cx="245" cy="30" r="20" fill="#ff9f1c"/>
+    <path d="M190 150 L190 100" stroke="#4a7c3c" stroke-width="6" stroke-linecap="round"/>
+    <path d="M190 130 l-14 -8 M190 130 l14 -8 M190 110 l-12 -6 M190 110 l12 -6" stroke="#4a7c3c" stroke-width="5" stroke-linecap="round"/>
+    <path d="M240 150 L240 95" stroke="#4a7c3c" stroke-width="7" stroke-linecap="round"/>
+    <path d="M240 125 l-16 -9 M240 125 l16 -9 M240 105 l-13 -7 M240 105 l13 -7" stroke="#4a7c3c" stroke-width="6" stroke-linecap="round"/>
+    <rect x="150" y="160" width="150" height="20" fill="#d9a441"/>
+  </svg>`,
+
+  unidadesconservacao: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#e6f2ea"/>
+    <circle cx="245" cy="35" r="16" fill="#ffd166"/>
+    <ellipse cx="150" cy="110" rx="90" ry="55" fill="#c8e6c9"/>
+    <path d="M100 150 L100 85 M100 85 L82 62 M100 85 L118 62" stroke="#5d4426" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="100" cy="72" rx="26" ry="18" fill="#2f9e44"/>
+    <path d="M190 150 L190 90 M190 90 L172 68 M190 90 L208 68" stroke="#5d4426" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="190" cy="78" rx="24" ry="16" fill="#37b24d"/>
+    <rect x="55" y="60" width="10" height="60" fill="#8a5a2b"/>
+    <rect x="40" y="45" width="40" height="18" rx="3" fill="#14324a"/>
+    <text x="60" y="58" font-size="11" fill="#fff" text-anchor="middle" font-family="Arial">ÁREA</text>
+  </svg>`,
+
+  biodiversidadelocal: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#eef7ea"/>
+    <circle cx="245" cy="35" r="16" fill="#ffd166"/>
+    <rect x="0" y="140" width="300" height="40" fill="#c9b48a"/>
+    <ellipse cx="60" cy="150" rx="26" ry="10" fill="#7cb342"/>
+    <ellipse cx="150" cy="150" rx="34" ry="12" fill="#8bc34a"/>
+    <ellipse cx="235" cy="150" rx="24" ry="9" fill="#7cb342"/>
+    <circle cx="150" cy="110" r="14" fill="#e57373"/>
+    <path d="M150 96 q6 -14 -4 -18" stroke="#5d4426" stroke-width="3" fill="none"/>
+    <circle cx="90" cy="120" r="9" fill="#ba68c8"/>
+    <circle cx="205" cy="118" r="10" fill="#ffb74d"/>
+    <g stroke="#455a64" stroke-width="2" fill="none">
+      <path d="M50 90 q6 -10 12 0"/>
+      <path d="M65 88 q6 -12 12 0"/>
+    </g>
+  </svg>`,
+
+  agricultura: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#fdf6e3"/>
+    <circle cx="245" cy="35" r="16" fill="#ffd166"/>
+    <rect x="0" y="120" width="300" height="60" fill="#c98a4b"/>
+    <g>
+      <rect x="15" y="90" width="8" height="40" fill="#d4a017"/>
+      <rect x="35" y="90" width="8" height="40" fill="#d4a017"/>
+      <rect x="55" y="90" width="8" height="40" fill="#d4a017"/>
+      <rect x="75" y="90" width="8" height="40" fill="#d4a017"/>
+      <rect x="95" y="90" width="8" height="40" fill="#d4a017"/>
+      <rect x="115" y="90" width="8" height="40" fill="#d4a017"/>
+      <rect x="135" y="90" width="8" height="40" fill="#d4a017"/>
+    </g>
+    <path d="M180 130 L280 130 L280 100 Q240 90 200 100 Z" fill="#37474f"/>
+    <circle cx="200" cy="135" r="10" fill="#263238"/>
+    <circle cx="255" cy="135" r="10" fill="#263238"/>
+  </svg>`,
+
+  saudeunica: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="180" fill="#e8f1f8"/>
+    <circle cx="100" cy="80" r="40" fill="#4fa3d1" opacity="0.85"/>
+    <circle cx="180" cy="80" r="40" fill="#7cb342" opacity="0.85"/>
+    <circle cx="140" cy="120" r="40" fill="#ef9a5b" opacity="0.85"/>
+    <text x="80" y="70" font-size="11" fill="#fff" font-family="Arial" text-anchor="middle">Saúde</text>
+    <text x="80" y="85" font-size="11" fill="#fff" font-family="Arial" text-anchor="middle">Humana</text>
+    <text x="200" y="70" font-size="11" fill="#fff" font-family="Arial" text-anchor="middle">Saúde</text>
+    <text x="200" y="85" font-size="11" fill="#fff" font-family="Arial" text-anchor="middle">Ambiental</text>
+    <text x="140" y="135" font-size="11" fill="#fff" font-family="Arial" text-anchor="middle">Saúde</text>
+    <text x="140" y="150" font-size="11" fill="#fff" font-family="Arial" text-anchor="middle">Animal</text>
+  </svg>`
+};
+
+/* =====================================================================
+   BANCO DE QUESTÕES – Guia Priorizado / Prova Paulista 7º Ano 3º Bimestre
+   (AE10 – Ecossistemas e Biomas Brasileiros | AE11 – Saúde e Saneamento)
+   ===================================================================== */
+const QUESTOES = [
+  {
+    id:'q1', tipo:'objetiva', aula:'Aula 1 · Ecossistemas aquáticos',
+    imagem:SVG.aquatico,
+    enunciado:'Os ecossistemas aquáticos brasileiros — rios, lagos, mares e manguezais — apresentam características físicas e biológicas próprias que sustentam grande biodiversidade e prestam serviços ecossistêmicos essenciais.',
+    pergunta:'Qual alternativa apresenta corretamente um serviço ecossistêmico prestado pelos ambientes aquáticos?',
+    alternativas:[
+      {letra:'A', texto:'Aumento da temperatura média do planeta pela liberação de gases poluentes.'},
+      {letra:'B', texto:'Purificação da água e manutenção do equilíbrio climático regional.'},
+      {letra:'C', texto:'Substituição da fauna nativa por espécies exóticas invasoras.'},
+      {letra:'D', texto:'Redução da disponibilidade de água doce para consumo humano.'}
+    ],
+    correta:'B'
+  },
+  {
+    id:'q2', tipo:'objetiva', aula:'Aulas 2 e 3 · Mata Atlântica',
+    imagem:SVG.mataatlantica,
+    enunciado:'A Mata Atlântica é um dos biomas mais ameaçados do planeta, restando hoje menos de 15% de sua cobertura original, principalmente em razão da urbanização, da agropecuária e da exploração de madeira, sobretudo no estado de São Paulo.',
+    pergunta:'Qual é o principal fator histórico responsável pela intensa fragmentação da Mata Atlântica no estado de São Paulo?',
+    alternativas:[
+      {letra:'A', texto:'Baixa fertilidade do solo, que impediu a ocupação humana.'},
+      {letra:'B', texto:'Clima excessivamente seco, que inviabilizou a agricultura na região.'},
+      {letra:'C', texto:'Expansão urbana e agropecuária associada à exploração de recursos naturais.'},
+      {letra:'D', texto:'Ausência de espécies com valor econômico na região.'}
+    ],
+    correta:'C'
+  },
+  {
+    id:'q3', tipo:'objetiva', aula:'Aulas 4 e 5 · Cerrado',
+    imagem:SVG.cerrado,
+    enunciado:'O Cerrado é o segundo maior bioma brasileiro, marcado por solos ácidos, estação seca bem definida e vegetação com cascas grossas e raízes profundas.',
+    pergunta:'Essas adaptações típicas das plantas do Cerrado estão relacionadas principalmente a:',
+    alternativas:[
+      {letra:'A', texto:'Resistir a baixas temperaturas de um inverno rigoroso.'},
+      {letra:'B', texto:'Sobreviver às queimadas naturais e à escassez sazonal de água.'},
+      {letra:'C', texto:'Facilitar a dispersão de sementes por correntes marítimas.'},
+      {letra:'D', texto:'Impedir totalmente a realização de fotossíntese no período chuvoso.'}
+    ],
+    correta:'B'
+  },
+  {
+    id:'q4', tipo:'objetiva', aula:'Aulas 7 e 8 · Amazônia',
+    imagem:SVG.amazonia,
+    enunciado:'A Floresta Amazônica concentra a maior biodiversidade do planeta e desempenha papel fundamental na regulação do clima global, funcionando como um grande reservatório de carbono e de água.',
+    pergunta:'A importância climática global da Amazônia está diretamente relacionada a(o):',
+    alternativas:[
+      {letra:'A', texto:'Elevado volume de água que a floresta libera para a atmosfera e à absorção de gás carbônico pela vegetação.'},
+      {letra:'B', texto:'Grande quantidade de minérios extraídos da região.'},
+      {letra:'C', texto:'Clima frio, que reduz a evaporação da água dos rios da bacia.'},
+      {letra:'D', texto:'Baixa densidade de vegetação, o que facilita a circulação do ar.'}
+    ],
+    correta:'A'
+  },
+  {
+    id:'q5', tipo:'objetiva', aula:'Aula 9 · Pantanal',
+    imagem:SVG.pantanal,
+    enunciado:'O Pantanal é a maior planície alagável do mundo. Seus ciclos de cheia e seca moldam a paisagem e sustentam grande diversidade de aves, peixes e mamíferos.',
+    pergunta:'O principal fator ambiental responsável pela grande biodiversidade do Pantanal é:',
+    alternativas:[
+      {letra:'A', texto:'O regime de cheias e secas, que forma diferentes habitats ao longo do ano.'},
+      {letra:'B', texto:'A total ausência de variação climática durante o ano.'},
+      {letra:'C', texto:'O relevo extremamente montanhoso da região.'},
+      {letra:'D', texto:'A presença exclusiva de vegetação típica de deserto.'}
+    ],
+    correta:'A'
+  },
+  {
+    id:'q6', tipo:'objetiva', aula:'Aulas 10 e 11 · Pampa e Caatinga',
+    imagem:SVG.pampacaatinga,
+    enunciado:'O Pampa, no extremo sul do Brasil, é formado por extensas planícies campestres de clima subtropical. Já a Caatinga, no Nordeste, apresenta vegetação adaptada à escassez de água e a altas temperaturas, sendo o único bioma exclusivamente brasileiro.',
+    pergunta:'Uma característica que diferencia a Caatinga do Pampa é:',
+    alternativas:[
+      {letra:'A', texto:'A Caatinga apresenta vegetação adaptada à seca, como cactáceas, enquanto o Pampa é dominado por campos e gramíneas.'},
+      {letra:'B', texto:'O Pampa é encontrado apenas em regiões litorâneas do Nordeste brasileiro.'},
+      {letra:'C', texto:'A Caatinga apresenta clima subtropical úmido, semelhante ao do Pampa.'},
+      {letra:'D', texto:'Ambos os biomas possuem vegetação florestal densa e alta umidade do ar.'}
+    ],
+    correta:'A'
+  },
+  {
+    id:'q7', tipo:'objetiva', aula:'Aula 13 · Unidades de Conservação',
+    imagem:SVG.unidadesconservacao,
+    enunciado:'As Unidades de Conservação são áreas legalmente protegidas para preservar a biodiversidade. Podem ser de Proteção Integral, sem ocupação humana direta, ou de Uso Sustentável, que permitem uso controlado dos recursos naturais.',
+    pergunta:'Qual alternativa corresponde a uma Unidade de Proteção Integral?',
+    alternativas:[
+      {letra:'A', texto:'Área de Proteção Ambiental (APA), com ocupação humana permitida.'},
+      {letra:'B', texto:'Reserva Extrativista, voltada à exploração sustentável de recursos naturais.'},
+      {letra:'C', texto:'Parque Nacional, que restringe a exploração direta dos recursos naturais.'},
+      {letra:'D', texto:'Floresta Nacional, destinada à exploração madeireira controlada.'}
+    ],
+    correta:'C'
+  },
+  {
+    id:'q8', tipo:'dissertativa', aula:'Aula 6 · Investigação da biodiversidade local',
+    imagem:SVG.biodiversidadelocal,
+    enunciado:'Durante a investigação da biodiversidade local, é possível observar diferentes espécies vegetais e fungos no entorno da escola ou do bairro, percebendo como até pequenos ambientes urbanos podem abrigar formas variadas de vida.',
+    pergunta:'Explique por que é importante observar e registrar a biodiversidade de ambientes próximos, como o entorno da escola, e cite ao menos uma ação que ajude a preservar essa biodiversidade local.',
+    placeholder:'Escreva sua resposta aqui (mínimo de 3 linhas)...'
+  },
+  {
+    id:'q9', tipo:'dissertativa', aula:'Aulas 14 e 15 · Agricultura e sustentabilidade',
+    imagem:SVG.agricultura,
+    enunciado:'A produção de alimentos é essencial para a sociedade, mas práticas como a monocultura em larga escala e o uso excessivo de agrotóxicos podem causar impactos ambientais significativos, como a perda de biodiversidade e a degradação do solo.',
+    pergunta:'Explique de que forma a monocultura pode impactar negativamente o meio ambiente e apresente uma alternativa mais sustentável para a produção de alimentos.',
+    placeholder:'Escreva sua resposta aqui (mínimo de 3 linhas)...'
+  },
+  {
+    id:'q10', tipo:'dissertativa', aula:'Aula 16 · Saúde Única',
+    imagem:SVG.saudeunica,
+    enunciado:'O conceito de Saúde Única relaciona a saúde humana, a saúde animal e a saúde ambiental como aspectos interligados, reconhecendo que o desequilíbrio em um deles pode afetar os demais.',
+    pergunta:'Explique a relação entre saúde ambiental e saúde pública, indicando como o saneamento básico influencia a saúde da população.',
+    placeholder:'Escreva sua resposta aqui (mínimo de 3 linhas)...'
+  }
+];
+
+/* =====================================================================
+   RENDERIZAÇÃO DAS QUESTÕES
+   ===================================================================== */
+const areaQuestoes = document.getElementById('areaQuestoes');
+const respostas = {};
+
+QUESTOES.forEach((q, idx) => {
+  const card = document.createElement('div');
+  card.className = 'questao';
+
+  const tagClasse = q.tipo === 'dissertativa' ? 'tag dissertativa' : 'tag';
+  const tagTexto = q.tipo === 'dissertativa' ? 'DISSERTATIVA' : 'MÚLTIPLA ESCOLHA';
+
+  let html = `
+    <span class="${tagClasse}">${tagTexto} · Questão ${idx+1}</span>
+    <h4>${q.aula}</h4>
+    <p class="enunciado">${q.enunciado}</p>
+    <div class="imagem-questao">${q.imagem}</div>
+    <p class="pergunta">${q.pergunta}</p>
+  `;
+
+  if(q.tipo === 'objetiva'){
+    html += `<div class="alternativas" data-qid="${q.id}">`;
+    q.alternativas.forEach(alt => {
+      html += `<div class="alt" data-letra="${alt.letra}">
+                 <span class="letra">${alt.letra}</span>
+                 <span class="texto-alt">${alt.texto}</span>
+               </div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<textarea class="resposta-dissertativa" id="${q.id}" placeholder="${q.placeholder}" maxlength="900"></textarea>
+              <div class="contador"><span id="cont-${q.id}">0</span>/900 caracteres</div>`;
+  }
+
+  card.innerHTML = html;
+  areaQuestoes.appendChild(card);
+});
+
+// Interatividade das alternativas (alto-relevo -> afundada/verde ao clicar)
+document.querySelectorAll('.alternativas').forEach(grupo => {
+  grupo.addEventListener('click', (e) => {
+    const altEl = e.target.closest('.alt');
+    if(!altEl) return;
+    grupo.querySelectorAll('.alt').forEach(a => a.classList.remove('selecionada'));
+    altEl.classList.add('selecionada');
+    respostas[grupo.dataset.qid] = altEl.dataset.letra;
+    validarFormulario();
+  });
+});
+
+// Contador de caracteres das dissertativas
+QUESTOES.filter(q => q.tipo === 'dissertativa').forEach(q => {
+  const ta = document.getElementById(q.id);
+  const cont = document.getElementById('cont-' + q.id);
+  ta.addEventListener('input', () => {
+    cont.textContent = ta.value.length;
+    respostas[q.id] = ta.value;
+    validarFormulario();
+  });
+});
+
+/* =====================================================================
+   IDENTIFICAÇÃO DO ALUNO — TURMA -> NOME (dropdowns em cascata via JSONP)
+   ===================================================================== */
+let listaAlunos = [];
+let alunoSelecionado = null;
+
+const selTurma = document.getElementById('selTurma');
+const selNome = document.getElementById('selNome');
+const inRA = document.getElementById('inRA');
+const inChamada = document.getElementById('inChamada');
+const statusAluno = document.getElementById('statusAluno');
+
+function carregarAlunos(){
+  return new Promise((resolve) => {
+    const cbName = 'cbAlunos_' + Date.now();
+    window[cbName] = function(data){
+      listaAlunos = data || [];
+      resolve();
+      delete window[cbName];
+      script.remove();
+    };
+    const script = document.createElement('script');
+    script.src = APPS_SCRIPT_URL + '?action=students&callback=' + cbName;
+    script.onerror = () => { statusAluno.textContent = 'Não foi possível carregar a lista de alunos. Verifique a URL do Apps Script.'; resolve(); };
+    document.body.appendChild(script);
+  });
+}
+
+selTurma.addEventListener('change', async () => {
+  selNome.innerHTML = '<option value="">Carregando alunos...</option>';
+  selNome.disabled = true;
+  inRA.value = ''; inChamada.value = '';
+  alunoSelecionado = null;
+  validarFormulario();
+
+  if(!selTurma.value){
+    selNome.innerHTML = '<option value="">Selecione a turma primeiro...</option>';
+    return;
+  }
+
+  if(listaAlunos.length === 0){
+    statusAluno.textContent = 'Carregando lista de alunos...';
+    await carregarAlunos();
+  }
+
+  const alunosDaTurma = listaAlunos.filter(a => a.turma === selTurma.value);
+  if(alunosDaTurma.length === 0){
+    selNome.innerHTML = '<option value="">Nenhum aluno ativo encontrado</option>';
+    statusAluno.textContent = 'Nenhum aluno ativo encontrado para esta turma.';
+    return;
+  }
+
+  alunosDaTurma.sort((a,b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  selNome.innerHTML = '<option value="">Selecione seu nome...</option>' +
+    alunosDaTurma.map((a,i) => `<option value="${i}">${a.nome}</option>`).join('');
+  selNome.disabled = false;
+  statusAluno.textContent = 'Selecione seu nome na lista.';
+  selNome._alunos = alunosDaTurma;
+});
+
+selNome.addEventListener('change', () => {
+  const idx = selNome.value;
+  if(idx === ''){
+    alunoSelecionado = null;
+    inRA.value=''; inChamada.value='';
+    statusAluno.textContent = 'Selecione seu nome na lista.';
+    validarFormulario();
+    return;
+  }
+  alunoSelecionado = selNome._alunos[idx];
+  inRA.value = alunoSelecionado.ra || '';
+  inChamada.value = alunoSelecionado.chamada || '';
+  statusAluno.textContent = `Aluno(a): ${alunoSelecionado.nome} — dados carregados com sucesso.`;
+  validarFormulario();
+});
+
+// Pré-carrega a lista de alunos assim que a página abre
+carregarAlunos();
+
+/* =====================================================================
+   VALIDAÇÃO E ENVIO
+   ===================================================================== */
+const btnEnviar = document.getElementById('btnEnviar');
+const msgEnvio = document.getElementById('msgEnvio');
+
+function validarFormulario(){
+  const objetivas = QUESTOES.filter(q => q.tipo === 'objetiva');
+  const dissertativas = QUESTOES.filter(q => q.tipo === 'dissertativa');
+
+  const todasObjetivasRespondidas = objetivas.every(q => respostas[q.id]);
+  const todasDissertativasRespondidas = dissertativas.every(q => (respostas[q.id]||'').trim().length >= 10);
+  const identificado = !!alunoSelecionado;
+
+  const ok = identificado && todasObjetivasRespondidas && todasDissertativasRespondidas;
+  btnEnviar.disabled = !ok;
+  return ok;
+}
+
+btnEnviar.addEventListener('click', async () => {
+  if(!validarFormulario()){
+    msgEnvio.className = 'erro';
+    msgEnvio.textContent = 'Preencha sua identificação e responda todas as questões antes de enviar.';
+    return;
+  }
+
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = 'Enviando e corrigindo com IA...';
+  msgEnvio.className = '';
+  msgEnvio.textContent = '';
+
+  const payload = {
+    nome: alunoSelecionado.nome,
+    turma: selTurma.value,
+    ra: alunoSelecionado.ra,
+    email: alunoSelecionado.email || '',
+    chamada: alunoSelecionado.chamada || '',
+    answers: {
+      q1: respostas.q1 || '', q2: respostas.q2 || '', q3: respostas.q3 || '',
+      q4: respostas.q4 || '', q5: respostas.q5 || '', q6: respostas.q6 || '', q7: respostas.q7 || '',
+      q8: respostas.q8 || '', q9: respostas.q9 || '', q10: respostas.q10 || ''
+    }
+  };
+
+  try{
+    const resp = await fetch(APPS_SCRIPT_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    const data = await resp.json();
+
+    if(data.ok){
+      document.getElementById('mensagemFinal').textContent = data.message;
+      document.getElementById('overlaySucesso').classList.add('ativo');
+      msgEnvio.className = 'sucesso';
+      msgEnvio.textContent = data.message;
+    } else {
+      throw new Error(data.error || 'Erro desconhecido ao enviar a atividade.');
+    }
+  }catch(err){
+    msgEnvio.className = 'erro';
+    msgEnvio.textContent = 'Erro ao enviar: ' + err.message + '. Tente novamente.';
+    btnEnviar.disabled = false;
+    btnEnviar.textContent = 'Enviar Atividade';
+  }
+});
+</script>
+</body>
+</html>
