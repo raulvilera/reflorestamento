@@ -154,14 +154,14 @@
     border-radius:12px;
     background:#eaf4fb;
     padding:10px;
-    object-fit:cover;
+    object-fit:contain;
     display:block;
   }
   .imagem-questao img{
-    padding:0;
+    padding:10px;
     background:#eaf4fb;
-    max-height:520px;
-    object-fit:cover;
+    max-height:640px;
+    object-fit:contain;
   }
   .imagem-questao .imagem-erro{
     width:100%;
@@ -522,7 +522,7 @@ const SVG = {
 const QUESTOES = [
   {
     id:'q1', tipo:'objetiva', aula:'Aula 1 · Ecossistemas aquáticos',
-    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgr91eYv-y5jUmL2hyLyZCmgSLn3dW7dxHizPZ0vLDcIHFSxBNKlFhUsKxtIvpKjCb38fdkZr4BAC_p3tXQfGsv1Cnrp2aCULpH1qn0gzmSyQQWtAnfNOu0mBk9nwTEsdWlcV5bbdqMTsJU2G2bvpETt8EtH0m-9Z0MufTgYDl9eOeZ8Btq_ddk0aLWhuMP/s1000/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2021_46_23.png',
+    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgr91eYv-y5jUmL2hyLyZCmgSLn3dW7dxHizPZ0vLDcIHFSxBNKlFhUsKxtIvpKjCb38fdkZr4BAC_p3tXQfGsv1Cnrp2aCULpH1qn0gzmSyQQWtAnfNOu0mBk9nwTEsdWlcV5bbdqMTsJU2G2bvpETt8EtH0m-9Z0MufTgYDl9eOeZ8Btq_ddk0aLWhuMP/s1536/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2021_46_23.png',
     enunciado:'Os ecossistemas aquáticos brasileiros — rios, lagos, mares e manguezais — apresentam características físicas e biológicas próprias que sustentam grande biodiversidade e prestam serviços ecossistêmicos essenciais.',
     pergunta:'Qual alternativa apresenta corretamente um serviço ecossistêmico prestado pelos ambientes aquáticos?',
     alternativas:[
@@ -535,7 +535,7 @@ const QUESTOES = [
   },
   {
     id:'q2', tipo:'objetiva', aula:'Aulas 2 e 3 · Mata Atlântica',
-    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgaen6wQwRNCuPOJAgxzfqE9VrSOZ8atdcWSdd9pMvoU1IU-oBiZbapTLBhGPeDhPXBQ8czbcARAkK-nGVA3mpTPlamWCbF1Zzd3xdrMkrh-kPKx1v0L-dVQ8RTNmS2jBbRs1Thnu9k7TFowUMwtsbUJ1VeifVO4CvTaTvPc4OpxKwaMJa5QG-nqT-Y5Dmr/s700/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2022_01_14.png',
+    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgaen6wQwRNCuPOJAgxzfqE9VrSOZ8atdcWSdd9pMvoU1IU-oBiZbapTLBhGPeDhPXBQ8czbcARAkK-nGVA3mpTPlamWCbF1Zzd3xdrMkrh-kPKx1v0L-dVQ8RTNmS2jBbRs1Thnu9k7TFowUMwtsbUJ1VeifVO4CvTaTvPc4OpxKwaMJa5QG-nqT-Y5Dmr/s1536/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2022_01_14.png',
     enunciado:'A Mata Atlântica é um dos biomas mais ameaçados do planeta, restando hoje menos de 15% de sua cobertura original, principalmente em razão da urbanização, da agropecuária e da exploração de madeira, sobretudo no estado de São Paulo.',
     pergunta:'Qual é o principal fator histórico responsável pela intensa fragmentação da Mata Atlântica no estado de São Paulo?',
     alternativas:[
@@ -548,7 +548,7 @@ const QUESTOES = [
   },
   {
     id:'q3', tipo:'objetiva', aula:'Aulas 4 e 5 · Cerrado',
-    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiV8C1SvqvBB74xQhKNpwhM7VSAxgQRme57e6XAoqsp74qLXpcVvdVPGQv4vPJmm_CQQdLqlex_s8Z2oAFqWI2XN64kr7592FzeEsLpdMU7ifHjthNobgUIuQeaStqn2SHUnUwoSi3sZLNvmkVH7dqrJUNXiKj7d3JZNgsaeA2EfcgwS2f4ONOpaKyFFJnZ/s700/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2022_07_37.png',
+    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiV8C1SvqvBB74xQhKNpwhM7VSAxgQRme57e6XAoqsp74qLXpcVvdVPGQv4vPJmm_CQQdLqlex_s8Z2oAFqWI2XN64kr7592FzeEsLpdMU7ifHjthNobgUIuQeaStqn2SHUnUwoSi3sZLNvmkVH7dqrJUNXiKj7d3JZNgsaeA2EfcgwS2f4ONOpaKyFFJnZ/s1536/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2022_07_37.png',
     enunciado:'O Cerrado é o segundo maior bioma brasileiro, marcado por solos ácidos, estação seca bem definida e vegetação com cascas grossas e raízes profundas.',
     pergunta:'Essas adaptações típicas das plantas do Cerrado estão relacionadas principalmente a:',
     alternativas:[
@@ -574,7 +574,7 @@ const QUESTOES = [
   },
   {
     id:'q5', tipo:'objetiva', aula:'Aula 9 · Pantanal',
-    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLuLPu3Mh-HPaePJRFaO1P6C2JP-tHTNcCEyMJacJtApLICb_Mh7DXp0orwIlBQGW_EHYpPeNiWhVgV5f_LORhKKObSg8no87drP55z21EImeTO_Z8o28dYWLv75dMPwTlYsft_vhwCd86y8Mc-V6X9bOH9Ps2nZHTkAxO3GNYhHsxN_MXdpKILafBqHaF/s700/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2022_26_20.png',
+    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLuLPu3Mh-HPaePJRFaO1P6C2JP-tHTNcCEyMJacJtApLICb_Mh7DXp0orwIlBQGW_EHYpPeNiWhVgV5f_LORhKKObSg8no87drP55z21EImeTO_Z8o28dYWLv75dMPwTlYsft_vhwCd86y8Mc-V6X9bOH9Ps2nZHTkAxO3GNYhHsxN_MXdpKILafBqHaF/s1448/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2022_26_20.png',
     enunciado:'O Pantanal é a maior planície alagável do mundo. Seus ciclos de cheia e seca moldam a paisagem e sustentam grande diversidade de aves, peixes e mamíferos.',
     pergunta:'O principal fator ambiental responsável pela grande biodiversidade do Pantanal é:',
     alternativas:[
@@ -587,7 +587,7 @@ const QUESTOES = [
   },
   {
     id:'q6', tipo:'objetiva', aula:'Aulas 10 e 11 · Pampa e Caatinga',
-    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiiylyc-Latyz3Cnz6ZJ4qrDptyZ3fiBXcNkupThpQbCXyR-a2SvTP4MxsW_LQfPYgm9ghM6RW3_e66f4t5XLDs5xHOk0QVM3hdKG-rYbfAKzp-4Lrz6xDGaYTtv04Ltx5uMMBJ8RXcqCHKh5Y9LXf1LfwEjNWGiJmHxC-XLl9Fva7gjFarXAEL8V6o3hZD/s700/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2022_32_06.png',
+    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiiylyc-Latyz3Cnz6ZJ4qrDptyZ3fiBXcNkupThpQbCXyR-a2SvTP4MxsW_LQfPYgm9ghM6RW3_e66f4t5XLDs5xHOk0QVM3hdKG-rYbfAKzp-4Lrz6xDGaYTtv04Ltx5uMMBJ8RXcqCHKh5Y9LXf1LfwEjNWGiJmHxC-XLl9Fva7gjFarXAEL8V6o3hZD/s1536/ChatGPT%20Image%2021%20de%20set.%20de%202026,%2022_32_06.png',
     enunciado:'O Pampa, no extremo sul do Brasil, é formado por extensas planícies campestres de clima subtropical. Já a Caatinga, no Nordeste, apresenta vegetação adaptada à escassez de água e a altas temperaturas, sendo o único bioma exclusivamente brasileiro.',
     pergunta:'Uma característica que diferencia a Caatinga do Pampa é:',
     alternativas:[
