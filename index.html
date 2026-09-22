@@ -47,7 +47,8 @@
   }
 
   .identificacao{
-    max-width:760px;
+    max-width:1200px;
+    width:94%;
     margin:22px auto 0;
     background:#fff;
     border-radius:16px;
@@ -69,9 +70,10 @@
   }
   .grid-id{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(4, 1fr);
     gap:14px;
   }
+  @media(max-width:900px){ .grid-id{grid-template-columns:1fr 1fr;} }
   @media(max-width:560px){ .grid-id{grid-template-columns:1fr;} }
   .campo{ display:flex; flex-direction:column; gap:6px; }
   .campo label{ font-size:.82rem; font-weight:600; color:var(--azul-escuro); }
@@ -94,7 +96,8 @@
   }
 
   main{
-    max-width:760px;
+    max-width:1200px;
+    width:94%;
     margin:26px auto;
     padding:0 16px;
   }
@@ -102,7 +105,7 @@
   .questao{
     background:#fff;
     border-radius:14px;
-    padding:20px 20px 24px;
+    padding:24px 28px 28px;
     margin-bottom:26px;
     /* sombreamento em "alto-relevo": leve realce no topo do card
        e sombra mais acentuada concentrada na base, dando efeito
@@ -141,26 +144,29 @@
     display:flex;
     justify-content:center;
     margin:12px 0 16px;
+    width:100%;
   }
   .imagem-questao svg,
   .imagem-questao img{
     width:100%;
-    max-width:340px;
+    max-width:100%;
     height:auto;
     border-radius:12px;
     background:#eaf4fb;
     padding:10px;
-    object-fit:contain;
+    object-fit:cover;
     display:block;
   }
   .imagem-questao img{
     padding:0;
     background:#eaf4fb;
+    max-height:520px;
+    object-fit:cover;
   }
   .imagem-questao .imagem-erro{
     width:100%;
-    max-width:340px;
-    min-height:120px;
+    max-width:100%;
+    min-height:180px;
     border-radius:12px;
     background:#eaf4fb;
     display:flex;
@@ -244,7 +250,8 @@
   }
 
   .barra-envio{
-    max-width:760px;
+    max-width:1200px;
+    width:94%;
     margin:0 auto;
     padding:0 16px;
     display:flex;
