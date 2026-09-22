@@ -26,11 +26,13 @@
 
   /* ===== CABEÇALHO PADRÃO DA ESCOLA ===== */
   header.escola{
-    background:var(--azul-escuro);
+    background:linear-gradient(160deg, var(--azul-escuro) 0%, #1a3f5c 100%);
     color:#fff;
-    padding:22px 18px 26px;
+    padding:26px 18px 40px;
     text-align:center;
-    box-shadow:0 4px 14px rgba(0,0,0,.18);
+    position:relative;
+    border-radius:0 0 32px 32px;
+    box-shadow:0 10px 24px rgba(14,36,54,.28);
   }
   header.escola h1{
     margin:0 0 4px;
@@ -46,13 +48,17 @@
 
   .identificacao{
     max-width:760px;
-    margin:-28px auto 0;
+    margin:22px auto 0;
     background:#fff;
-    border-radius:14px;
-    box-shadow:0 8px 24px rgba(20,50,74,.15);
+    border-radius:16px;
+    /* sombreamento em "alto-relevo": realce sutil no topo + sombra
+       mais forte concentrada na parte inferior do card */
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.7) inset,
+      0 18px 26px -14px rgba(20,50,74,.45),
+      0 4px 10px rgba(20,50,74,.10);
     padding:22px 24px;
     position:relative;
-    z-index:2;
   }
   .identificacao h3{
     margin:0 0 14px;
@@ -97,9 +103,16 @@
     background:#fff;
     border-radius:14px;
     padding:20px 20px 24px;
-    margin-bottom:22px;
-    box-shadow:0 4px 16px rgba(20,50,74,.08);
-    border:1px solid #e7edf2;
+    margin-bottom:26px;
+    /* sombreamento em "alto-relevo": leve realce no topo do card
+       e sombra mais acentuada concentrada na base, dando efeito
+       de profundidade/relevo em vez de sombra uniforme. */
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.6) inset,
+      0 16px 24px -14px rgba(20,50,74,.35),
+      0 3px 8px rgba(20,50,74,.08);
+    border:1px solid #eef1f4;
+    transition:box-shadow .15s ease;
   }
   .questao .tag{
     display:inline-block;
@@ -481,7 +494,7 @@ const SVG = {
 const QUESTOES = [
   {
     id:'q1', tipo:'objetiva', aula:'Aula 1 · Ecossistemas aquáticos',
-    imagem:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj5Qu55i18lHw_hCeC34h3HpMIUTaQmqOvcFcREcTC8Pl3uTbswGszn6IHzkjkAUQp-VlgJzmWSqKy0F4DQed0fK65eUwLiqduEeYaf1MakybvpT1SOct-XqGOs8kMMcbaosyAGO2E3eoPtTH4U9-rG3y0n59QjEvRIRVMKhPv0eYTEx-eFB3GGqBUZzq_0/s1312/ChatGPT%20Image%2018%20de%20set.%20de%202026,%2019_42_40.png',
+    imagem:SVG.aquatico,
     enunciado:'Os ecossistemas aquáticos brasileiros — rios, lagos, mares e manguezais — apresentam características físicas e biológicas próprias que sustentam grande biodiversidade e prestam serviços ecossistêmicos essenciais.',
     pergunta:'Qual alternativa apresenta corretamente um serviço ecossistêmico prestado pelos ambientes aquáticos?',
     alternativas:[
