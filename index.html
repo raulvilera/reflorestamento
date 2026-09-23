@@ -54,8 +54,6 @@
     margin:22px auto 0;
     background:#fff;
     border-radius:16px;
-    /* sombreamento em "alto-relevo": realce sutil no topo + sombra
-       mais forte concentrada na parte inferior do card */
     box-shadow:
       0 1px 0 rgba(255,255,255,.7) inset,
       0 18px 26px -14px rgba(20,50,74,.45),
@@ -109,9 +107,6 @@
     border-radius:14px;
     padding:24px 28px 28px;
     margin-bottom:26px;
-    /* sombreamento em "alto-relevo": leve realce no topo do card
-       e sombra mais acentuada concentrada na base, dando efeito
-       de profundidade/relevo em vez de sombra uniforme. */
     box-shadow:
       0 1px 0 rgba(255,255,255,.6) inset,
       0 16px 24px -14px rgba(20,50,74,.35),
@@ -185,7 +180,6 @@
     margin:10px 0 12px;
   }
 
-  /* ===== ALTERNATIVAS: alto-relevo ===== */
   .alternativas{
     display:flex;
     flex-direction:column;
@@ -674,9 +668,6 @@ const QUESTOES = [
 const areaQuestoes = document.getElementById('areaQuestoes');
 const respostas = {};
 
-// Monta o HTML correto da ilustração da questão, aceitando dois formatos
-// em q.imagem: (1) uma string de SVG inline (começa com "<svg") ou
-// (2) uma URL de imagem (foto/PNG/JPG gerada, link do Blogger/Drive/etc).
 function renderImagemQuestao(imagem, textoAlternativo){
   if(!imagem) return '';
 
@@ -723,7 +714,6 @@ QUESTOES.forEach((q, idx) => {
   areaQuestoes.appendChild(card);
 });
 
-// Interatividade das alternativas (alto-relevo -> afundada/verde ao clicar)
 document.querySelectorAll('.alternativas').forEach(grupo => {
   grupo.addEventListener('click', (e) => {
     const altEl = e.target.closest('.alt');
@@ -735,7 +725,6 @@ document.querySelectorAll('.alternativas').forEach(grupo => {
   });
 });
 
-// Contador de caracteres das dissertativas
 QUESTOES.filter(q => q.tipo === 'dissertativa').forEach(q => {
   const ta = document.getElementById(q.id);
   const cont = document.getElementById('cont-' + q.id);
@@ -747,9 +736,71 @@ QUESTOES.filter(q => q.tipo === 'dissertativa').forEach(q => {
 });
 
 /* =====================================================================
-   IDENTIFICAÇÃO DO ALUNO — TURMA -> NOME (dropdowns em cascata via JSONP)
+   LISTA DE ALUNOS — 7º Ano A e 7º Ano B
+   (dados importados de 7ºAno_A.xlt e 7ºAno_B.xlt — carregados aqui
+   diretamente, sem depender de chamada externa ao Apps Script)
    ===================================================================== */
-let listaAlunos = [];
+const LISTA_ALUNOS = [
+  { turma:'7º Ano A', nome:'ÁGATHA CAMPOS DE SOUSA', ra:'1236877056', chamada:'1', email:'00001236877056SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'ALBERT BARROS CARDOSO', ra:'1145064681', chamada:'2', email:'00001145064681SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'ALEXIA LOHANA COSTA DE OLIVEIRA', ra:'1158646471', chamada:'3', email:'00001158646471SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'ANA CAROLINA GONÇALVES NASCIMENTO DE LIMA', ra:'1158650103', chamada:'4', email:'00001158650103SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'ARIANE DIAS SOARES', ra:'1150668921', chamada:'5', email:'00001150668921sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'BRYAN OLLIVER TEIXEIRA RODRIGUES DE SALLES', ra:'1165009420', chamada:'6', email:'00001165009420sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'CRYSTHOPHER PIERRE CAVALCANTE RUBIRA', ra:'1216318712', chamada:'7', email:'00001216318712sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'EMANUELLA RIBEIRO MAFRA', ra:'1150692790', chamada:'8', email:'00001150692790SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'FHELIPE OLIVEIRA CAETANO PEREIRA', ra:'1214862834', chamada:'9', email:'00001214862834sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'GABRIEL CHAVES RAMOS', ra:'1126033753', chamada:'10', email:'00001126033753SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'HENRIQUE VIANA LEITE', ra:'1164378600', chamada:'12', email:'00001164378600sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'ISABELLA DE SOUZA SILVA', ra:'1145959738', chamada:'13', email:'00001145959738SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'ISABELLY SOPHIA VIEIRA LIMA', ra:'1216955074', chamada:'14', email:'00001216955074SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'ISABELLY VITORIA DA SILVA MOREIRA', ra:'1146129294', chamada:'15', email:'00001146129294SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'JÁDINA COELHO ABADE', ra:'1158823290', chamada:'16', email:'00001158823290SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'JEAN PAULO MARTINS DA SILVA', ra:'1158823927', chamada:'17', email:'00001158823927sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'KETTELLEN VITORIA DA SILVA CARDOSO', ra:'115883763X', chamada:'19', email:'0000115883763XSP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'LUAN CAIO LOPES DE LIMA', ra:'1165284649', chamada:'21', email:'00001165284649sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'MAYSA CORREIA DE OLIVEIRA', ra:'1214914585', chamada:'24', email:'00001214914585SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'MAYSA FERNANDA DE OLIVEIRA CARVALHO', ra:'1165175071', chamada:'25', email:'00001165175071sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'OTAVIO DO NASCIMENTO CONCEIÇÃO', ra:'1220120716', chamada:'27', email:'00001220120716SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'PEDRO BRANDÃO SANTOS', ra:'1239236013', chamada:'28', email:'00001239236013SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'RAFAELLA VICTORIA ABREU DOS ANJOS', ra:'1214835375', chamada:'30', email:'00001214835375sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'RAPHAEL CORRÊA AZEVEDO', ra:'115889689X', chamada:'31', email:'0000115889689XSP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'RYAN FREITAS FERREIRA', ra:'1165206687', chamada:'32', email:'00001165206687sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'SAYMON GABRIEL DE JESUS BARBOSA', ra:'1219761771', chamada:'33', email:'00001219761771SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'YASMIM MANGILI SILVA', ra:'1141637285', chamada:'34', email:'00001141637285sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'YASMIM NOVAES SOARES', ra:'1165225785', chamada:'35', email:'00001165225785SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'YASMIN CRISTINA PEREIRA CORREIA', ra:'1165228221', chamada:'36', email:'00001165228221SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'ANA LUIZA DA SILVA OLIVEIRA', ra:'1210280450', chamada:'38', email:'00001210280450SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano A', nome:'AGATHA DE CAMARGO', ra:'1156229790', chamada:'39', email:'00001156229790sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'ABRAÃO JUNIOR SOUSA BATISTA', ra:'1164982230', chamada:'1', email:'00001164982230sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'ALEX ROBERTO BARBOZA DE CARVALHO', ra:'1164984482', chamada:'2', email:'00001164984482SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'AMANDA MARTINS SANTOS DA SILVA', ra:'1164988864', chamada:'3', email:'00001164988864SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'ANA CECILIA LEÃO DE ALMEIDA', ra:'1158650280', chamada:'4', email:'00001158650280sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'BEATRIZ NASCIMENTO ALVES', ra:'1165003533', chamada:'7', email:'00001165003533SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'BRUNO HENRIQUE SERAFIM', ra:'1150697593', chamada:'10', email:'00001150697593SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'DANIEL ROCHA COSTA', ra:'1165016540', chamada:'11', email:'00001165016540sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'ERICK ROBERTO ESTEVAM OLIVEIRA', ra:'1165033380', chamada:'13', email:'00001165033380sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'FELIPE WENDEL GONÇALVES DOS SANTOS', ra:'1150692868', chamada:'14', email:'00001150692868sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'FERNANDA MARCOS SOARES', ra:'1150700452', chamada:'15', email:'00001150700452SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'GUILHERME CAMARGO MOTA', ra:'1165047767', chamada:'16', email:'00001165047767SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'GUILHERME DE BRITO ROCHA', ra:'1165047871', chamada:'17', email:'00001165047871SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'HEDERSON FERNANDO FELIX DE SOUZA', ra:'1141553442', chamada:'18', email:'00001141553442SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'JENIFER MEDEIROS ALVES', ra:'1214879421', chamada:'19', email:'00001214879421sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'JHULIA FERNANDA MENDES', ra:'1158824889', chamada:'20', email:'00001158824889sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'KENNETH BARTHOLOMEW KOSH IV', ra:'1214900173', chamada:'22', email:'00001214900173sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'LARYSSA XAVIER DE SOUZA', ra:'1165276331', chamada:'23', email:'00001165276331sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'LOHANA GABRIELY GONÇALVES DA SILVA', ra:'1214892644', chamada:'26', email:'00001214892644sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'MATHEUS LOPES FERREIRA', ra:'1215104066', chamada:'28', email:'00001215104066sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'MAYRA CORREIA DE OLIVEIRA', ra:'1214891780', chamada:'29', email:'00001214891780SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'MILENA KAROLINE ALVES COSTA', ra:'1229679352', chamada:'30', email:'00001229679352SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'SOPHIA EVANGELISTA COBRA DE CARVALHO', ra:'1165365509', chamada:'32', email:'00001165365509SP@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'VITOR HUGO GUERREIRO RODRIGUES', ra:'1158914957', chamada:'33', email:'00001158914957sp@al.educacao.sp.gov.br' },
+  { turma:'7º Ano B', nome:'MIGUEL DOMINGOS CALIXTO', ra:'120583574X', chamada:'35', email:'0000120583574XSP@al.educacao.sp.gov.br' },
+];
+
+/* =====================================================================
+   IDENTIFICAÇÃO DO ALUNO — TURMA -> NOME (dropdowns em cascata)
+   ===================================================================== */
 let alunoSelecionado = null;
 
 const selTurma = document.getElementById('selTurma');
@@ -758,104 +809,32 @@ const inRA = document.getElementById('inRA');
 const inChamada = document.getElementById('inChamada');
 const statusAluno = document.getElementById('statusAluno');
 
-let carregandoAlunos = false;
-
-// Mostra uma mensagem de erro persistente com um link para tentar
-// recarregar a lista de alunos, em vez de deixar a tela "carregando"
-// para sempre quando o Apps Script não responde como esperado.
-function mostrarErroCarregamento(mensagem){
-  statusAluno.innerHTML =
-    (mensagem || 'Não foi possível carregar a lista de alunos.') +
-    ' <a href="#" id="linkTentarNovamente" style="color:var(--azul-medio); font-weight:700; text-decoration:underline;">Tentar novamente</a>';
-
-  const link = document.getElementById('linkTentarNovamente');
-  if(link){
-    link.addEventListener('click', async (e) => {
-      e.preventDefault();
-      statusAluno.textContent = 'Tentando carregar a lista de alunos novamente...';
-      await carregarAlunos();
-      if(selTurma.value) selTurma.dispatchEvent(new Event('change'));
-    });
-  }
-}
-
-function carregarAlunos(){
-  if(carregandoAlunos) return Promise.resolve();
-  carregandoAlunos = true;
-
-  return new Promise((resolve) => {
-    const cbName = 'cbAlunos_' + Date.now();
-    let finalizado = false;
-
-    const finalizar = (ok, mensagemErro) => {
-      if(finalizado) return;
-      finalizado = true;
-      carregandoAlunos = false;
-      clearTimeout(timeoutId);
-      delete window[cbName];
-      if(script.parentNode) script.remove();
-      if(!ok) mostrarErroCarregamento(mensagemErro);
-      resolve();
-    };
-
-    window[cbName] = function(data){
-      listaAlunos = data || [];
-      finalizar(true);
-    };
-
-    // Se o Apps Script não chamar o callback em 10s (por exemplo, se
-    // devolver JSON puro em vez de JSONP, ou se a URL/implantação
-    // estiver incorreta), avisamos o usuário em vez de travar mudo.
-    const timeoutId = setTimeout(() => {
-      finalizar(false, 'Tempo esgotado ao carregar a lista de alunos. Verifique se a implantação do Apps Script está ativa e devolve dados no formato JSONP.');
-    }, 10000);
-
-    const script = document.createElement('script');
-    script.src = APPS_SCRIPT_URL + '?action=students&callback=' + cbName + '&_=' + Date.now();
-    script.onerror = () => finalizar(false, 'Não foi possível carregar a lista de alunos. Verifique a URL do Apps Script ou sua conexão.');
-    document.body.appendChild(script);
-  });
-}
-
-selTurma.addEventListener('change', async () => {
-  selNome.innerHTML = '<option value="">Carregando alunos...</option>';
-  selNome.disabled = true;
+selTurma.addEventListener('change', () => {
   inRA.value = ''; inChamada.value = '';
   alunoSelecionado = null;
   validarFormulario();
 
   if(!selTurma.value){
     selNome.innerHTML = '<option value="">Selecione a turma primeiro...</option>';
+    selNome.disabled = true;
+    statusAluno.textContent = 'Selecione a turma e depois o nome para carregar seus dados.';
     return;
   }
 
-  if(listaAlunos.length === 0 && !carregandoAlunos){
-    statusAluno.textContent = 'Carregando lista de alunos...';
-    await carregarAlunos();
-  } else if(carregandoAlunos){
-    statusAluno.textContent = 'Carregando lista de alunos...';
-    while(carregandoAlunos){ await new Promise(r => setTimeout(r, 200)); }
-  }
-
-  if(listaAlunos.length === 0){
-    selNome.innerHTML = '<option value="">Não foi possível carregar os alunos</option>';
-    // statusAluno já mostra a mensagem de erro com o link "Tentar novamente"
-    return;
-  }
-
-  const alunosDaTurma = listaAlunos.filter(a => a.turma === selTurma.value);
+  const alunosDaTurma = LISTA_ALUNOS.filter(a => a.turma === selTurma.value);
   if(alunosDaTurma.length === 0){
-    selNome.innerHTML = '<option value="">Nenhum aluno ativo encontrado</option>';
-    statusAluno.textContent = 'Nenhum aluno ativo encontrado para esta turma.';
+    selNome.innerHTML = '<option value="">Nenhum aluno encontrado</option>';
+    selNome.disabled = true;
+    statusAluno.textContent = 'Nenhum aluno encontrado para esta turma.';
     return;
   }
 
-  alunosDaTurma.sort((a,b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  const alunosOrdenados = [...alunosDaTurma].sort((a,b) => a.nome.localeCompare(b.nome, 'pt-BR'));
   selNome.innerHTML = '<option value="">Selecione seu nome...</option>' +
-    alunosDaTurma.map((a,i) => `<option value="${i}">${a.nome}</option>`).join('');
+    alunosOrdenados.map((a,i) => `<option value="${i}">${a.nome}</option>`).join('');
   selNome.disabled = false;
   statusAluno.textContent = 'Selecione seu nome na lista.';
-  selNome._alunos = alunosDaTurma;
+  selNome._alunos = alunosOrdenados;
 });
 
 selNome.addEventListener('change', () => {
@@ -873,9 +852,6 @@ selNome.addEventListener('change', () => {
   statusAluno.textContent = `Aluno(a): ${alunoSelecionado.nome} — dados carregados com sucesso.`;
   validarFormulario();
 });
-
-// Pré-carrega a lista de alunos assim que a página abre
-carregarAlunos();
 
 /* =====================================================================
    VALIDAÇÃO, ENVIO E EXCLUSÃO DE RESPOSTAS
@@ -948,8 +924,6 @@ btnEnviar.addEventListener('click', async () => {
   }
 });
 
-// Botão "Excluir Respostas": limpa todas as alternativas marcadas e os
-// campos dissertativos, sem alterar a identificação do aluno já carregada.
 btnExcluir.addEventListener('click', () => {
   const temRespostas = Object.keys(respostas).some(k => (respostas[k] || '').toString().trim() !== '');
   if(!temRespostas){
@@ -961,10 +935,8 @@ btnExcluir.addEventListener('click', () => {
   const confirmar = window.confirm('Tem certeza que deseja excluir todas as respostas já preenchidas? Esta ação não pode ser desfeita.');
   if(!confirmar) return;
 
-  // Limpa alternativas selecionadas
   document.querySelectorAll('.alt.selecionada').forEach(a => a.classList.remove('selecionada'));
 
-  // Limpa campos dissertativos e contadores
   QUESTOES.filter(q => q.tipo === 'dissertativa').forEach(q => {
     const ta = document.getElementById(q.id);
     const cont = document.getElementById('cont-' + q.id);
@@ -972,7 +944,6 @@ btnExcluir.addEventListener('click', () => {
     if(cont) cont.textContent = '0';
   });
 
-  // Limpa o objeto de respostas
   Object.keys(respostas).forEach(k => delete respostas[k]);
 
   msgEnvio.className = 'aviso';
