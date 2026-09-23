@@ -21,7 +21,7 @@
   body{
     margin:0;
     font-family:'Segoe UI', Arial, sans-serif;
-    background:linear-gradient(180deg,#eaf2f8 0%,#f7fbfd 220px, #f7fbfd 100%);
+    background:var(--azul-escuro);
     color:var(--texto);
     padding-bottom:60px;
   }
@@ -395,6 +395,42 @@
     font-weight:800;
     color:var(--azul-escuro);
     margin:10px 0;
+  }
+
+  /* ===== AJUSTES RESPONSIVOS PARA TELAS PEQUENAS (CELULARES) ===== */
+  @media(max-width:600px){
+    header.escola{ padding:20px 14px 32px; border-radius:0 0 22px 22px; }
+    header.escola h1{ font-size:1.1rem; }
+    header.escola h2{ font-size:.88rem; }
+
+    .identificacao{ width:92%; padding:16px 14px; margin-top:16px; }
+    .identificacao h3{ font-size:.98rem; }
+
+    main{ width:92%; padding:0 10px; margin:18px auto; }
+
+    .questao{ padding:16px 14px 20px; border-radius:12px; margin-bottom:18px; }
+    .questao h4{ font-size:.92rem; }
+    .questao p.enunciado{ font-size:.9rem; }
+    .questao .tag{ font-size:.66rem; padding:3px 9px; }
+
+    .imagem-questao img{ max-height:280px; }
+
+    .alt{ padding:11px 13px; font-size:.9rem; }
+    .alt .letra{ width:22px; height:22px; font-size:.72rem; }
+
+    textarea.resposta-dissertativa{ font-size:.9rem; padding:10px 12px; }
+
+    #btnEnviar, #btnExcluir{ min-width:0; padding:13px 18px; font-size:.96rem; }
+
+    .lightbox{ padding:12px; }
+    .lightbox-fechar{ top:10px; right:10px; width:38px; height:38px; font-size:1.25rem; }
+    .lightbox-dica{ bottom:12px; font-size:.72rem; }
+  }
+
+  @media(max-width:360px){
+    header.escola h1{ font-size:1rem; }
+    .grid-id{ gap:10px; }
+    .questao{ padding:14px 12px 18px; }
   }
 </style>
 </head>
