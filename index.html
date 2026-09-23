@@ -75,15 +75,21 @@
   }
   @media(max-width:900px){ .grid-id{grid-template-columns:1fr 1fr;} }
   @media(max-width:560px){ .grid-id{grid-template-columns:1fr;} }
-  .campo{ display:flex; flex-direction:column; gap:6px; }
+  .campo{ display:flex; flex-direction:column; gap:6px; min-width:0; }
   .campo label{ font-size:.82rem; font-weight:600; color:var(--azul-escuro); }
   .campo select, .campo input{
+    width:100%;
+    max-width:100%;
+    min-width:0;
     padding:10px 12px;
     border-radius:9px;
     border:1px solid var(--cinza-borda);
     background:var(--cinza-claro);
     font-size:.95rem;
     color:var(--texto);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
   .campo input[readonly]{
     background:#eef3f7;
