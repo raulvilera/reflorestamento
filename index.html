@@ -153,12 +153,79 @@
     padding:10px;
     object-fit:contain;
     display:block;
+    cursor:zoom-in;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .imagem-questao svg:hover,
+  .imagem-questao img:hover{
+    transform:scale(1.015);
+    box-shadow:0 8px 20px rgba(20,50,74,.18);
   }
   .imagem-questao img{
     padding:10px;
     background:#eaf4fb;
     max-height:640px;
     object-fit:contain;
+  }
+
+  /* ===== LIGHTBOX (ampliar imagem ao clicar) ===== */
+  .lightbox{
+    position:fixed; inset:0;
+    background:rgba(10,20,30,.88);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:24px;
+    cursor:zoom-out;
+  }
+  .lightbox.ativo{ display:flex; }
+  .lightbox-conteudo{
+    max-width:min(92vw, 1100px);
+    max-height:90vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation:lightbox-zoom .18s ease;
+  }
+  .lightbox-conteudo img,
+  .lightbox-conteudo svg{
+    max-width:100%;
+    max-height:90vh;
+    width:auto;
+    height:auto;
+    border-radius:14px;
+    background:#eaf4fb;
+    padding:14px;
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
+  }
+  .lightbox-fechar{
+    position:fixed;
+    top:18px; right:22px;
+    width:42px; height:42px;
+    border-radius:50%;
+    border:none;
+    background:#fff;
+    color:var(--azul-escuro);
+    font-size:1.4rem;
+    font-weight:700;
+    line-height:1;
+    cursor:pointer;
+    box-shadow:0 6px 16px rgba(0,0,0,.3);
+    z-index:101;
+  }
+  .lightbox-dica{
+    position:fixed;
+    bottom:20px; left:50%;
+    transform:translateX(-50%);
+    color:#fff;
+    font-size:.82rem;
+    opacity:.8;
+    z-index:101;
+  }
+  @keyframes lightbox-zoom{
+    from{ opacity:0; transform:scale(.92); }
+    to{ opacity:1; transform:scale(1); }
   }
   .imagem-questao .imagem-erro{
     width:100%;
@@ -382,6 +449,12 @@
     <h3>Atividade enviada! ✅</h3>
     <p id="mensagemFinal">Suas respostas foram registradas com sucesso.</p>
   </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-fechar" id="lightboxFechar" type="button" aria-label="Fechar imagem ampliada">&times;</button>
+  <div class="lightbox-conteudo" id="lightboxConteudo"></div>
+  <div class="lightbox-dica">Clique em qualquer lugar para fechar</div>
 </div>
 
 <script>
@@ -733,6 +806,46 @@ QUESTOES.filter(q => q.tipo === 'dissertativa').forEach(q => {
     respostas[q.id] = ta.value;
     validarFormulario();
   });
+});
+
+/* =====================================================================
+   LIGHTBOX — amplia a imagem da questão ao clicar
+   ===================================================================== */
+const lightbox = document.getElementById('lightbox');
+const lightboxConteudo = document.getElementById('lightboxConteudo');
+const lightboxFechar = document.getElementById('lightboxFechar');
+
+function abrirLightbox(elementoOriginal){
+  lightboxConteudo.innerHTML = '';
+  const clone = elementoOriginal.cloneNode(true);
+  clone.removeAttribute('onerror');
+  clone.style.cursor = 'default';
+  lightboxConteudo.appendChild(clone);
+  lightbox.classList.add('ativo');
+  document.body.style.overflow = 'hidden';
+}
+
+function fecharLightbox(){
+  lightbox.classList.remove('ativo');
+  lightboxConteudo.innerHTML = '';
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.imagem-questao').forEach(container => {
+  container.addEventListener('click', (e) => {
+    const alvo = container.querySelector('img, svg');
+    if(!alvo) return;
+    abrirLightbox(alvo);
+  });
+});
+
+lightbox.addEventListener('click', fecharLightbox);
+lightboxFechar.addEventListener('click', (e) => {
+  e.stopPropagation();
+  fecharLightbox();
+});
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && lightbox.classList.contains('ativo')) fecharLightbox();
 });
 
 /* =====================================================================
